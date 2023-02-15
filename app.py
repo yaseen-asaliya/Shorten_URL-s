@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, redirect, g
 import logging
 import Backend.database_configaration as dbc
 from Backend.logger import log_action
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @log_action
 @app.before_request
