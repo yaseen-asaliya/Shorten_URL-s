@@ -17,8 +17,8 @@ class FlaskAppTests(unittest.TestCase):
         self.assertIn("shortened_url", data)
 
     def test_get_original_url(self):
-        response = self.app.get("/original_url", data=json.dumps({'url': "https://mail.google/t5xUjL"}), content_type='application/json')
-        self.assertEqual(response.status_code, 302) 
+        response = self.app.get("/original_url?url=https://youtube/FETJE7")
+        self.assertEqual(response.status_code, 302) # 302 means that the endpoit redirected you to the target page successfully
     
     def test_get_all_urls(self):
        response = self.app.get("/urls?date=2022-02-13&search=google&page=1&per_page=3")

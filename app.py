@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify, redirect, g
 import logging
 import Backend.database_configaration as dbc
 from Backend.logger import log_action
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @log_action
 @app.before_request
@@ -32,14 +34,13 @@ def get_shorten_url():
 @app.route('/original_url', methods=['GET'])
 def get_original_url():
     try:
-        short_url = request.json["url"]
+        short_url = request.args.get('url')
         logging.info(f"Getting original url for : {short_url}")
         result = g.db.get_full_url(short_url)
         logging.info(f"Original url is : {result[0]}")
         if result:
             original_url = result[0]
-            return jsonify({"shortened_url": original_url})
-            #return redirect(original_url)
+            return redirect(original_url)
         else:
             return jsonify({'error': 'Short URL not found'}), 404
     except Exception as err:
