@@ -41,7 +41,7 @@ class DatabaseConfigraton:
                 logging.info("Inserting done successfully.")
                 return short_url
             else:
-                short_url = self.get_shorten_url(original_url)
+                short_url = self.get_shorten_url(original_url)[0]
                 logging.warning(f"{original_url} already has shorten url : {short_url} stored in the database")
                 return short_url
             
@@ -58,7 +58,7 @@ class DatabaseConfigraton:
     def get_shorten_url(self, original_url):
         self.cursor.execute("SELECT shorten_url FROM url WHERE original_url=?", (original_url,))
         logging.debug("Selecting shorten_url from database...")
-        return self.cursor.fetchone()[0]
+        return self.cursor.fetchone()
         
     @log_action
     def check_original_url_if_exsist(self, original_url):
