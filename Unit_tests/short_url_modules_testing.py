@@ -1,4 +1,7 @@
 import unittest
+import sys
+# this line make Backend folder accessable
+sys.path.insert(0, '/root/Shorten_URL-s')
 import Backend.short_url_modules as sh
 
 class TestShortUrl(unittest.TestCase):

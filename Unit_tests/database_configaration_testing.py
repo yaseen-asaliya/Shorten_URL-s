@@ -1,5 +1,8 @@
 import unittest
 import unittest.mock
+import sys
+# this line make Backend folder accessable
+sys.path.insert(0, '/root/Shorten_URL-s')
 import Backend.database_configaration as dbc
 from unittest.mock import Mock, patch
 

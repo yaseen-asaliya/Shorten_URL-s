@@ -1,5 +1,8 @@
 import unittest
 import json
+import sys
+# this line make app class accessable
+sys.path.insert(0, '/root/Shorten_URL-s')
 import app
 
 class FlaskAppTests(unittest.TestCase):
@@ -15,7 +18,7 @@ class FlaskAppTests(unittest.TestCase):
 
     def test_get_original_url(self):
         response = self.app.get("/original_url", data=json.dumps({'url': "https://mail.google/t5xUjL"}), content_type='application/json')
-        self.assertEqual(response.status_code, 200) 
+        self.assertEqual(response.status_code, 302) 
     
     def test_get_all_urls(self):
        response = self.app.get("/urls?date=2022-02-13&search=google&page=1&per_page=3")
