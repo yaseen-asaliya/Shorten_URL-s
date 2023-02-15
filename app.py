@@ -34,14 +34,13 @@ def get_shorten_url():
 @app.route('/original_url', methods=['GET'])
 def get_original_url():
     try:
-        short_url = request.json["url"]
+        short_url = request.args.get('url')
         logging.info(f"Getting original url for : {short_url}")
         result = g.db.get_full_url(short_url)
         logging.info(f"Original url is : {result[0]}")
         if result:
             original_url = result[0]
-            return jsonify({"shortened_url": original_url})
-            #return redirect(original_url)
+            return redirect(original_url)
         else:
             return jsonify({'error': 'Short URL not found'}), 404
     except Exception as err:

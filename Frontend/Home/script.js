@@ -16,3 +16,13 @@ form.addEventListener("submit", async (e) => {
   const data = await response.json();
   resultLabel.innerText = data.shortened_url;
 });
+
+const label = document.getElementById("result");
+
+label.addEventListener("click", () => {
+  const url = label.innerText;
+  const endpoint = "http://127.0.0.1:5000/original_url";
+  const urlWithParam = `${endpoint}?url=${url}`;
+
+  window.open(urlWithParam, '_blank');
+});

@@ -53,6 +53,12 @@ a {
   text-decoration: none;
 }
 
-
+#result {
+  margin-top: 17%;
+  position: absolute;
+  left: 1em;
+  font-size: 1.2em;
+  color: blue;
+}
 
 
