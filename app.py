@@ -5,6 +5,7 @@ from Backend.logger import log_action
 
 app = Flask(__name__)
 
+@log_action
 @app.before_request
 def before_request():
     try:
@@ -24,7 +25,8 @@ def get_shorten_url():
        logging.info(f"shoret url is : {shortened_url}")
        return jsonify({"shortened_url": shortened_url})
    except Exception as err:
-       logging.error(f"error while getting shore url : {err}") 
+       logging.error(f"error while getting shore url : {err}")
+       return jsonify({'error': str(err)}), 500
 
 @log_action
 @app.route('/original_url', methods=['GET'])
@@ -36,11 +38,13 @@ def get_original_url():
         logging.info(f"Original url is : {result[0]}")
         if result:
             original_url = result[0]
-            return redirect(original_url)
+            return jsonify({"shortened_url": original_url})
+            #return redirect(original_url)
         else:
             return jsonify({'error': 'Short URL not found'}), 404
     except Exception as err:
         logging.error(f"error while get original url : {err}")
+        return jsonify({'error': str(err)}), 500
 
 @log_action
 @app.route('/urls', methods=['GET'])
@@ -56,6 +60,7 @@ def get_all_urls():
         return jsonify({'urls': urls})
     except Exception as err:
         logging.error(f"error while get all url's : {err}")
+        return jsonify({'error': str(err)}), 500
 
 if __name__ == "__main__":
     app.run()
