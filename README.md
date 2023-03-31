@@ -1,10 +1,14 @@
 # Shorten_URL-s
-### Database side
+
+### Private DNS
+* 
+
+## Database Side
 * Pull mariadb docker image
 ```
 # docker pull mariadb
 ```
-* Create docker compose file 'setup-database.yml' with mariadb database image and create a new user `yaseen` and database called `monitoring_app`
+* Create docker compose file `setup-database.yml` with mariadb database image and create a new user `yaseen` and database called `monitoring_app`
 ```
 version: "3"
 
