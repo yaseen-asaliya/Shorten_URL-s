@@ -1,7 +1,50 @@
 # Shorten_URL-s
 
 ### Private DNS
-* 
+* Install necessary utilities
+```
+# yum install bind bind-utils -y
+```
+* Edit BIND DNS configuration file `/etc/named.conf` and add `shorten.url` zone
+```
+options {
+    listen-on port 53 { 127.0.0.1; 10.0.2.9; };
+    allow-query     { localhost; 10.0.2.0/24; };
+    allow-transfer  { localhost; 10.0.2.0/24; };
+};
+
+zone "shorten.url" IN {
+    type master;
+    file "/var/named/shorten.url.zone";
+    allow-update { none; };
+};
+```
+* Create a zone file in `/var/named/shorten.url.zone`
+```
+$TTL 86400
+@   IN  SOA shorten.url. root.shorten.url. (
+        2016010101  ; serial
+        3600        ; refresh
+        1800        ; retry
+        604800      ; expire
+        86400       ; minimum
+)
+@   IN  NS  shorten.url.
+@   IN  A   10.0.2.9
+```
+* Change owner and permissions for zone file 
+```
+# chown named:named /var/named/shorten.url.zone
+# chmod 640 /var/named/shorten.url.zone
+```
+* Restart the BIND DNS server to apply the new configuration
+```
+# systemctl restart named
+```
+* To check the DNS status 
+```
+# dig shorten.url
+```
 
 ## Database Side
 * Pull mariadb docker image
