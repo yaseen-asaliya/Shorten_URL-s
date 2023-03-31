@@ -16,7 +16,7 @@ def before_request():
         logging.info("Database connected.")
     except Exception as err:
         logging.error(f"Error while connnecting to the database : {err}")
-    
+
 @log_action
 @app.route("/shorten_url", methods=["POST"])
 def get_shorten_url():
@@ -30,22 +30,6 @@ def get_shorten_url():
        logging.error(f"error while getting shore url : {err}")
        return jsonify({'error': str(err)}), 500
 
-@log_action
-@app.route('/original_url', methods=['GET'])
-def get_original_url():
-    try:
-        short_url = request.args.get('url')
-        logging.info(f"Getting original url for : {short_url}")
-        result = g.db.get_full_url(short_url)
-        logging.info(f"Original url is : {result[0]}")
-        if result:
-            original_url = result[0]
-            return redirect(original_url)
-        else:
-            return jsonify({'error': 'Short URL not found'}), 404
-    except Exception as err:
-        logging.error(f"error while get original url : {err}")
-        return jsonify({'error': str(err)}), 500
 
 @log_action
 @app.route('/urls', methods=['GET'])
@@ -63,5 +47,23 @@ def get_all_urls():
         logging.error(f"error while get all url's : {err}")
         return jsonify({'error': str(err)}), 500
 
+@log_action
+@app.route('/<sub_url>', methods=['GET'])
+def redirect_to_original_url(sub_url):
+    try:
+        shorten_url = "http://shorten.url/" + sub_url
+        logging.debug(f"Searching for {shorten_url}")
+        result = g.db.get_full_url(shorten_url)
+        if result:
+            original_url = result[0]
+            return redirect(original_url)
+        else:
+            return jsonify({'error': 'Short URL not found'}), 404
+
+    except Exception as err:
+        logging.error(f"error while get original url : {err}")
+        return jsonify({'error': str(err)}), 500
+
+
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")
