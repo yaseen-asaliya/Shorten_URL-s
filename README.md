@@ -32,6 +32,10 @@ $TTL 86400
 @   IN  NS  shorten.url.
 @   IN  A   10.0.2.9
 ```
+* Ser servername in `/etc/resolv.conf`
+```
+nameserver 10.0.2.9
+```
 * Change owner and permissions for zone file 
 ```
 # chown named:named /var/named/shorten.url.zone
